@@ -90,11 +90,11 @@ local altkey       = "Mod1"
 local terminal     = "st"
 local vi_focus     = false -- vi-like client focus https://github.com/lcpz/awesome-copycats/issues/275
 local cycle_prev   = true  -- cycle with only the previously focused client or all https://github.com/lcpz/awesome-copycats/issues/274
-local editor       = os.getenv("EDITOR") or "nano"
+local editor       = os.getenv("EDITOR") or "vi"
 local browser      = "firefox"
 
 awful.util.terminal = terminal
-awful.util.tagnames = { "1", "2", "3", "4", "5" }
+awful.util.tagnames = { "1", "2", "3", "4", "5", "6", "7", "8", "9", "Purgatory" }
 awful.layout.layouts = {
     awful.layout.suit.tile,
     awful.layout.suit.spiral.dwindle,
@@ -163,7 +163,7 @@ awful.util.mymainmenu = freedesktop.menu.build {
         -- other triads can be put here
     },
     after = {
-        { "Open terminal", terminal },
+        -- { "Open terminal", terminal },
         -- other triads can be put here
     }
 }
@@ -187,7 +187,7 @@ end)
 --]]
 
 -- Set the Menubar terminal for applications that require it
---menubar.utils.terminal = terminal
+-- menubar.utils.terminal = terminal
 
 -- }}}
 
@@ -346,11 +346,6 @@ globalkeys = mytable.join(
         end,
         {description = "toggle awesome taskbar", group = "awesome"}),
 
-    -- On-the-fly useless gaps change
-    awful.key({ altkey, "Control" }, "+", function () lain.util.useless_gaps_resize(1) end,
-              {description = "increment useless gaps", group = "tag"}),
-    awful.key({ altkey, "Control" }, "-", function () lain.util.useless_gaps_resize(-1) end,
-              {description = "decrement useless gaps", group = "tag"}),
     -- Standard program
     awful.key({ "Control", altkey }, "t" , function () awful.spawn(terminal) end,
               {description = "open a terminal", group = "launcher"}),
@@ -409,10 +404,6 @@ globalkeys = mytable.join(
         end,
         {description = "volume 0%", group = "hotkeys"}),
 
-    -- User programs
-    awful.key({ modkey }, "q", function () awful.spawn(browser) end,
-              {description = "run browser", group = "launcher"}),
-
     -- Prompt
     awful.key({ modkey }, "r", function () awful.screen.focused().mypromptbox:run() end,
               {description = "run prompt", group = "launcher"})
@@ -457,7 +448,7 @@ clientkeys = mytable.join(
 -- Bind all key numbers to tags.
 -- Be careful: we use keycodes to make it work on any keyboard layout.
 -- This should map on the top row of your keyboard, usually 1 to 9.
-for i = 1, 5 do
+for i = 1, 10 do
     globalkeys = mytable.join(globalkeys,
         -- View tag only.
         awful.key({ modkey }, "#" .. i + 9,

@@ -18,25 +18,38 @@ local theme                                     = {}
 theme.dir                                       = os.getenv("HOME") .. "/.config/awesome/themes/powerarrow-dark"
 theme.wallpaper                                 = theme.dir .. "/wall.png"
 theme.font                                      = "Fira Code 8"
-theme.fg_normal                                 = "#DDDDFF"
-theme.fg_focus                                  = "#EA6F81"
-theme.fg_urgent                                 = "#CC9393"
-theme.bg_normal                                 = "#1A1A1A"
-theme.bg_focus                                  = "#313131"
-theme.bg_urgent                                 = "#1A1A1A"
-theme.border_width                              = dpi(1)
-theme.border_normal                             = "#3F3F3F"
-theme.border_focus                              = "#7F7F7F"
-theme.border_marked                             = "#CC9393"
-theme.tasklist_bg_focus                         = "#1A1A1A"
+                                                -- Normal
+theme.fg_normal                                 = "#FFFFFF" -- normal text
+theme.bg_normal                                 = "#001122" -- unselected / odd element
+theme.border_normal                             = "#000000" -- unselected window border
+                                                -- Focus
+theme.fg_focus                                  = "#ff6900" -- selected window text
+theme.bg_focus                                  = "#003344" -- selected window / screen
+theme.border_focus                              = "#FF6900" -- selected window border
+theme.tasklist_bg_focus                         = "#003344" -- selected window name background
+                                                -- IDK
+theme.fg_urgent                                 = "#FF0000" -- never comes up
+theme.bg_urgent                                 = "#00FF00" -- never comes up
+theme.border_marked                             = "#0000FF" -- never comes up                                                -- BORDERS
+
 theme.titlebar_bg_focus                         = theme.bg_focus
 theme.titlebar_bg_normal                        = theme.bg_normal
 theme.titlebar_fg_focus                         = theme.fg_focus
-theme.menu_height                               = dpi(16)
-theme.menu_width                                = dpi(140)
+
+theme.border_width                              = dpi(1) -- 0 is kind of fun
+theme.menu_height                               = dpi(20) -- quick menu and rightclick menu
+theme.menu_width                                = dpi(150) -- quick menu and rightclick menu
+theme.useless_gap                               = dpi(0)
+
+theme.tasklist_plain_task_name                  = true -- not sure
+theme.tasklist_disable_icon                     = true -- not sure
+
+-- menu
 theme.menu_submenu_icon                         = theme.dir .. "/icons/submenu.png"
+-- taglist
 theme.taglist_squares_sel                       = theme.dir .. "/icons/square_sel.png"
 theme.taglist_squares_unsel                     = theme.dir .. "/icons/square_unsel.png"
+-- layout
 theme.layout_tile                               = theme.dir .. "/icons/tile.png"
 theme.layout_tileleft                           = theme.dir .. "/icons/tileleft.png"
 theme.layout_tilebottom                         = theme.dir .. "/icons/tilebottom.png"
@@ -49,6 +62,7 @@ theme.layout_max                                = theme.dir .. "/icons/max.png"
 theme.layout_fullscreen                         = theme.dir .. "/icons/fullscreen.png"
 theme.layout_magnifier                          = theme.dir .. "/icons/magnifier.png"
 theme.layout_floating                           = theme.dir .. "/icons/floating.png"
+-- widget
 theme.widget_ac                                 = theme.dir .. "/icons/ac.png"
 theme.widget_battery                            = theme.dir .. "/icons/battery.png"
 theme.widget_battery_low                        = theme.dir .. "/icons/battery_low.png"
@@ -66,9 +80,7 @@ theme.widget_vol_no                             = theme.dir .. "/icons/vol_no.pn
 theme.widget_vol_mute                           = theme.dir .. "/icons/vol_mute.png"
 theme.widget_mail                               = theme.dir .. "/icons/mail.png"
 theme.widget_mail_on                            = theme.dir .. "/icons/mail_on.png"
-theme.tasklist_plain_task_name                  = true
-theme.tasklist_disable_icon                     = true
-theme.useless_gap                               = dpi(0)
+-- titlebar
 theme.titlebar_close_button_focus               = theme.dir .. "/icons/titlebar/close_focus.png"
 theme.titlebar_close_button_normal              = theme.dir .. "/icons/titlebar/close_normal.png"
 theme.titlebar_ontop_button_focus_active        = theme.dir .. "/icons/titlebar/ontop_focus_active.png"
@@ -91,7 +103,7 @@ theme.titlebar_maximized_button_normal_inactive = theme.dir .. "/icons/titlebar/
 local markup = lain.util.markup
 local separators = lain.util.separators
 
-local keyboardlayout = awful.widget.keyboardlayout:new()
+-- local keyboardlayout = awful.widget.keyboardlayout:new()
 
 -- Textclock
 local clockicon = wibox.widget.imagebox(theme.widget_clock)
@@ -106,22 +118,22 @@ local clock = awful.widget.watch(
 theme.cal = lain.widget.cal({
     attach_to = { clock },
     notification_preset = {
-        font = "Terminus 10",
+        font = theme.font,
         fg   = theme.fg_normal,
         bg   = theme.bg_normal
     }
 })
 
 -- MEM
-local memicon = wibox.widget.imagebox(theme.widget_mem)
+-- local memicon = wibox.widget.imagebox(theme.widget_mem)
 local mem = lain.widget.mem({
     settings = function()
-        widget:set_markup(markup.font(theme.font, " " .. mem_now.used .. "MB "))
+        widget:set_markup(markup.font(theme.font, " " .. mem_now.used .. " MB "))
     end
 })
 
 -- CPU
-local cpuicon = wibox.widget.imagebox(theme.widget_cpu)
+-- local cpuicon = wibox.widget.imagebox(theme.widget_cpu)
 local cpu = lain.widget.cpu({
     settings = function()
         widget:set_markup(markup.font(theme.font, " " .. cpu_now.usage .. "% "))
@@ -129,7 +141,7 @@ local cpu = lain.widget.cpu({
 })
 
 -- Coretemp
-local tempicon = wibox.widget.imagebox(theme.widget_temp)
+-- local tempicon = wibox.widget.imagebox(theme.widget_temp)
 local temp = lain.widget.temp({
     settings = function()
         widget:set_markup(markup.font(theme.font, " " .. coretemp_now .. "°C "))
@@ -137,41 +149,41 @@ local temp = lain.widget.temp({
 })
 
 -- Battery
-local baticon = wibox.widget.imagebox(theme.widget_battery)
+-- local baticon = wibox.widget.imagebox(theme.widget_battery)
 local bat = lain.widget.bat({
     settings = function()
         if bat_now.status and bat_now.status ~= "N/A" then
             if bat_now.ac_status == 1 then
-                baticon:set_image(theme.widget_ac)
+                -- baticon:set_image(theme.widget_ac)
             elseif not bat_now.perc and tonumber(bat_now.perc) <= 5 then
-                baticon:set_image(theme.widget_battery_empty)
+                -- baticon:set_image(theme.widget_battery_empty)
             elseif not bat_now.perc and tonumber(bat_now.perc) <= 15 then
-                baticon:set_image(theme.widget_battery_low)
+                -- baticon:set_image(theme.widget_battery_low)
             else
-                baticon:set_image(theme.widget_battery)
+                -- baticon:set_image(theme.widget_battery)
             end
             widget:set_markup(markup.font(theme.font, " " .. bat_now.perc .. "% "))
         else
             widget:set_markup(markup.font(theme.font, " AC "))
-            baticon:set_image(theme.widget_ac)
+            -- baticon:set_image(theme.widget_ac)
         end
     end
 })
 
 
 -- Net
-local neticon = wibox.widget.imagebox(theme.widget_net)
+-- local neticon = wibox.widget.imagebox(theme.widget_net)
 local net = lain.widget.net({
     settings = function()
         widget:set_markup(markup.font(theme.font,
-                          markup("#7AC82E", " " .. string.format("%06.1f", net_now.received) .. " 🡫")
+                          markup("#ff6900", " " .. string.format("%06.1f", net_now.received) .. " ↓")
                           .. " " ..
-                          markup("#46A8C3", " " .. string.format("%06.1f", net_now.sent) .. " 🡩 ")))
+                          markup("#FF6900", " " .. string.format("%06.1f", net_now.sent) .. " ↑")))
     end
 })
 
 -- Separators
-local separator     = wibox.widget.textbox(' ')
+local separator     = wibox.widget.textbox('    ')
 local arrow_grey = separators.arrow_left(theme.bg_focus, "alpha")
 local arrow_blk = separators.arrow_left("alpha", theme.bg_focus)
 
