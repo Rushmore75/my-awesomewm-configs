@@ -27,10 +27,10 @@ theme.fg_focus                                  = "#ff6900" -- selected window t
 theme.bg_focus                                  = "#003344" -- selected window / screen
 theme.border_focus                              = "#FF6900" -- selected window border
 theme.tasklist_bg_focus                         = "#003344" -- selected window name background
-                                                -- IDK
-theme.fg_urgent                                 = "#FF0000" -- never comes up
-theme.bg_urgent                                 = "#00FF00" -- never comes up
-theme.border_marked                             = "#0000FF" -- never comes up                                                -- BORDERS
+
+theme.fg_urgent                                 = "#00FF00" -- never comes up
+theme.bg_urgent                                 = "#FF6900" -- say a browser tab get's opened but the browser is in a different desktop
+theme.border_marked                             = "#0000FF" -- never comes up
 
 theme.titlebar_bg_focus                         = theme.bg_focus
 theme.titlebar_bg_normal                        = theme.bg_normal
